@@ -1,36 +1,25 @@
-var fs = require('fs');
-var path = require('path');
-var moment = require('moment');
+let fs = require('fs');
+let path = require('path');
+let moment = require('moment');
 
 let xmltv = require('xmltv');
+let xmlName='tvguide.xml';
+let guideProgrammes = [];
 
-
-function createParser (xmlName, programmeArray) {
-    var input = fs.createReadStream(path.join(__dirname, xmlName));
-    var parser = new xmltv.Parser();
+    let input = fs.createReadStream(path.join(__dirname, xmlName));
+    let parser = new xmltv.Parser();
     input.pipe(parser);
 
     parser.on('programme', function (programme) {
-        programmeArray.push(programme);
+      guideProgrammes.push(programme);
     });
 
-    return parser;
-}
 
 
-var guideProgrammes = [];
-var guideParser = createParser('tvguide.xml', guideProgrammes);
-guideParser.on('error', function (err) {
+parser.on('error', function (err) {
 	console.log(`ERROR!!  ${err}`);
 });
-guideParser.on("end", function() {
+parser.on("end", function() {
 	console.log(guideProgrammes);
 });
 
-/*
-xmltv.on("programme", function(programme) {
-  //Do something with programmes one by one as they are parsed
-  console.log(programme);
-});
-xmltv.parseFile("tvguide.xml");
-*/
