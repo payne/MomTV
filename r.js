@@ -4,4 +4,7 @@ const fs = require('fs');
 
 let rawdata = fs.readFileSync('tvguide.json');  
 let student = JSON.parse(rawdata);  
-console.log(JSON.stringify(student));  
+let idArray = student.tv.channel.map(c => c.id);
+console.log(JSON.stringify(idArray));
+
+
