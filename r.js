@@ -9,6 +9,9 @@ let id2name = student.tv.channel.reduce((m,o) => {
   m[o.id]=o['display-name'];
   return m;
 }, {});
-console.log(JSON.stringify(id2name));
-
+// console.log(JSON.stringify(id2name));
+student.tv.programme.forEach(p => {
+				let cNumber=id2name[p.channel][2];
+				console.log(`${cNumber}\t${p.title.$t}`);
+});
 
