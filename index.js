@@ -10,6 +10,10 @@ let input = fs.createReadStream(path.join(__dirname, xmlName));
 let parser = new xmltv.Parser();
 input.pipe(parser);
 
+parser.on("channel", function(c) {
+  console.log(c);
+});
+
 parser.on("programme", function(programme) {
   guideProgrammes.push(programme);
 });
