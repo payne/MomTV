@@ -1,7 +1,7 @@
 "use strict";
 
 const fs = require("fs");
-const moment  = require("moment");
+const moment = require("moment");
 
 let rawdata = fs.readFileSync("tvguide.json");
 let student = JSON.parse(rawdata);
@@ -11,34 +11,36 @@ let id2name = student.tv.channel.reduce((m, o) => {
   return m;
 }, {});
 
-let id2programs = student.tv.programme.reduce((m,o) => {
-  if (!(m[o.channel])) { m[o.channel]=[]; } 
+let id2programs = student.tv.programme.reduce((m, o) => {
+  if (!m[o.channel]) {
+    m[o.channel] = [];
+  }
   m[o.channel].push(o);
   return m;
 }, {});
 
 if (true) {
-  const ignore=['3-1','3-2','3-4'];
+  const ignore = ["3-1", "3-2", "3-4"];
 
   // console.log(JSON.stringify(id2programs));
   for (let c in id2programs) {
     let chNumber = id2name[c][2];
     if (ignore.indexOf(chNumber) < 0) {
-    console.log(`${id2name[c][2]}\t${id2name[c][0]}`);
-	  console.log();
-    let programmes = id2programs[c];
-    programmes.forEach(p => {
-	  let a = moment(p.start, 'YYYYMMDDhhmmss');
-	  let b = moment(p.stop,  'YYYYMMDDhhmmss');
-	  console.log(`\t${a} - ${b}: ${p.title.$t}`);
-    });
+      console.log(`${id2name[c][2]}\t${id2name[c][0]}`);
+      console.log();
+      let programmes = id2programs[c];
+      programmes.forEach(p => {
+        let a = moment(p.start, "YYYYMMDDhhmmss");
+        let b = moment(p.stop, "YYYYMMDDhhmmss");
+        console.log(`\t${a} - ${b}: ${p.title.$t}`);
+      });
     }
   }
 } else {
-student.tv.programme.forEach(p => {
-  let cNumber = id2name[p.channel][2];
-  let a = moment(p.start, 'YYYYMMDDhhmmss');
-  let b = moment(p.stop,  'YYYYMMDDhhmmss');
-  console.log(`${cNumber}\t${a} - ${b}: ${p.title.$t}`);
-});
+  student.tv.programme.forEach(p => {
+    let cNumber = id2name[p.channel][2];
+    let a = moment(p.start, "YYYYMMDDhhmmss");
+    let b = moment(p.stop, "YYYYMMDDhhmmss");
+    console.log(`${cNumber}\t${a} - ${b}: ${p.title.$t}`);
+  });
 }
