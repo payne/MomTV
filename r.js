@@ -20,7 +20,13 @@ let id2programs = student.tv.programme.reduce((m,o) => {
 if (true) {
   // console.log(JSON.stringify(id2programs));
   for (let c in id2programs) {
-   console.log(id2name[c][2]);
+    console.log(id2name[c][2]);
+    let programmes = id2programs[c];
+    programmes.forEach(p => {
+	  let a = moment(p.start, 'YYYYMMDDhhmmss');
+	  let b = moment(p.stop,  'YYYYMMDDhhmmss');
+	  console.log(`\t${a} - ${b}: ${p.title.$t}`);
+    });
   }
 } else {
 student.tv.programme.forEach(p => {
